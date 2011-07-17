@@ -10,7 +10,7 @@ BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 URL:			http://github.com/elemc/basketpwd
 
 Requires:		qt openssl
-BuildRequires:		qt-devel openssl-devel gcc-c++ desktop-file-utils cmake
+BuildRequires:		qt-devel >= 4.6.0 openssl-devel gcc-c++ desktop-file-utils cmake
 
 %description 
 Basket of passwords
