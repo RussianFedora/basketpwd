@@ -15,7 +15,7 @@
 
 Name:			basketpwd
 Version:		0.4.5
-Release:		1%{?dist}
+Release:		2%{?dist}
 Summary:		Basket of passwords
 Summary(ru):		Корзинка паролей
 
@@ -27,6 +27,7 @@ Group:			Productivity/Security
 
 License:		GPLv2
 Source0:		http://cloud.github.com/downloads/elemc/%{name}/%{name}-%{version}.tar.bz2
+Source100:		README.RFRemix
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 URL:			http://github.com/elemc/basketpwd
 
@@ -77,6 +78,7 @@ pushd build-cmake
 %endif
 make %{?_smp_mflags}
 popd
+cp %{SOURCE100} .
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -96,7 +98,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %{_bindir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/pixmaps/%{name}.png
-%doc ChangeLog.txt README
+%doc ChangeLog.txt README README.RFRemix
 
 %clean
 pushd build-cmake
@@ -105,6 +107,9 @@ popd
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
+* Thu Dec 22 2011 Alexei Panov <elemc AT atisserv DOT ru> - 0.4.5-2
+- New rules of RFRemix packaging
+
 * Thu Sep  8 2011 Alexei Panov <elemc AT atisserv DOT ru> - 0.4.5-1
 - New version 0.4.5 (see ChangeLog.txt)
 
