@@ -16,7 +16,7 @@
 
 Name:			basketpwd
 Version:		0.4.7
-Release:		1%{?dist}
+Release:		2%{?dist}
 Summary:		Basket of passwords
 Summary(ru):	Корзинка паролей
 
@@ -143,6 +143,9 @@ touch --no-create %{_datadir}/icons/hicolor || :
 %{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
 
 %changelog
+* Sun Jul 14 2013 Alexei Panov <me AT elemc DOT name> 0.4.7-2
+- Rebuild for Fedora 19 release
+
 * Thu Sep 20 2012 Alexei Panov <me AT elemc DOT name> 0.4.7
 - New release 0.4.7
 
