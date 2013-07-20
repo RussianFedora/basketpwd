@@ -1,22 +1,18 @@
-# Prefered configure method
-# if configure_method is 0 - using qmake or
-#    configure_method is 1 - using cmake
-
 %define configure_method 1
 
-%if (0%{?fedora} == 0)
-%define configure_method 0
-%endif
+%if %{defined suse_version}
+    %if %{?_lib} == "lib64"
+        %define __cmake_lib_suffix -DLIB_SUFFIX=64
+    %else
+        %define __cmake_lib_suffix -DLIB_SUFFIX=
+    %endif 
 
-%define qmake %{_bindir}/qmake-qt4
-
-%if (0%{?fedora} == 0) || (0%{?rhel} == 0)
-%define qmake %{_libdir}/qt4/bin/qmake -spec linux-g++
+    %define cmake /usr/bin/cmake -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} -DINCLUDE_INSTALL_DIR:PATH=%{_includedir} -DLIB_INSTALL_DIR:PATH=%{_libdir} -DSYSCONF_INSTALL_DIR:PATH=%{_sysconfdir} -DSHARE_INSTALL_PREFIX:PATH=%{_datadir} %{?__cmake_lib_suffix} -DBUILD_SHARED_LIBS:BOOL=ON -DCMAKE_BUILD_TYPE=Release -DNOT_INSTALL_PROJECT_DOCS=YES
 %endif
 
 Name:			basketpwd
-Version:		0.4.7
-Release:		2%{?dist}
+Version:		0.4.8
+Release:		1%{?dist}
 Summary:		Basket of passwords
 Summary(ru):	Корзинка паролей
 
@@ -27,7 +23,7 @@ Group:			Productivity/Security
 %endif
 
 License:		GPLv2
-Source0:		http://elemc.name/repos/sources/%{name}/%{name}-%{version}.tar.bz2
+Source0:		http://elemc.name/repos/sources/%{name}/%{name}-%{version}.tar.xz
 
 %if (0%{?fedora} > 0)
 Source100:		README.RFRemix
@@ -56,9 +52,7 @@ BuildRequires:	 qt-devel
 BuildRequires:	 qt-devel
 %endif
 
-%if 0%{?fedora} > 0
 BuildRequires:	 cmake
-%endif
 
 %description 
 Basket of passwords
@@ -89,11 +83,7 @@ cp %{SOURCE100} .
 
 mkdir build-cmake
 pushd build-cmake
-%if 0%{?configure_method} > 0
 %cmake ..
-%else
-%{qmake} %{_builddir}/%{name}-%{version}/basketpwd.pro
-%endif
 make %{?_smp_mflags}
 popd
 
@@ -101,26 +91,18 @@ popd
 rm -rf $RPM_BUILD_ROOT
 
 pushd build-cmake
-%if 0%{?configure_method} > 0
 make install DESTDIR=$RPM_BUILD_ROOT
-%else
-make install INSTALL_ROOT=$RPM_BUILD_ROOT/usr
-%endif
 popd
+
 desktop-file-install --dir=${RPM_BUILD_ROOT}%{_datadir}/applications tools/%{name}.desktop
 desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 
 %files
 %defattr(-,root,root)
 %{_bindir}/%{name}
-%if 0%{?configure_method} > 0
 %{_libdir}/libbasketlib.so
-%else
-%{_libdir}/libbasketpwd.so*
-%endif
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor
-
 %doc ChangeLog.txt README
 
 %if (0%{?fedora} > 0)
@@ -143,10 +125,13 @@ touch --no-create %{_datadir}/icons/hicolor || :
 %{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
 
 %changelog
-* Sun Jul 14 2013 Alexei Panov <me AT elemc DOT name> 0.4.7-2
-- Rebuild for Fedora 19 release
+* Sun Jul 21 2013 Alexei Panov <me AT elemc DOT name> 0.4.8-1
+- New upstream release
 
-* Thu Sep 20 2012 Alexei Panov <me AT elemc DOT name> 0.4.7
+* Sun Sep 23 2012 Alexei Panov <me AT elemc DOT name> 0.4.7-2
+- Remove qmake build
+
+* Thu Sep 20 2012 Alexei Panov <me AT elemc DOT name> 0.4.7-1
 - New release 0.4.7
 
 * Fri May 25 2012 Alexei Panov <me AT elemc DOT name> 0.4.6-1
