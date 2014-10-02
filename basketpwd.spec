@@ -104,6 +104,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor
 %doc ChangeLog.txt README
+%{_docdir}/*
 
 %if (0%{?fedora} > 0)
 %doc README.RFRemix
