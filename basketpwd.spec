@@ -23,7 +23,7 @@ Group:			Productivity/Security
 %endif
 
 License:		GPLv2
-Source0:		http://repo.elemc.name/download/repos/sources/basketpwd/basketpwd-0.4.8.tar.xz
+Source0:		http://repo.elemc.name/sources/basketpwd/basketpwd-0.4.8.tar.xz
 
 %if (0%{?fedora} > 0)
 Source100:		README.RFRemix
